@@ -31,4 +31,62 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+
+    var deadLine = '2022-04-01';
+
+    function getTimeRemaining(endTime){
+        var t = Date.parse(endTime) - Date.parse(new Date());
+        if(t > 0){
+        var seconds = Math.floor((t/1000)%60);
+        var minutes = Math.floor((t/1000/60)%60);
+        var hours = Math.floor((t/(1000*60*60)));
+        return{
+            'total' : t,
+            'hours' : hours,
+            'minutes' : minutes,
+            'seconds' : seconds
+        };
+        }else {
+            return{
+                'total' : 0,
+                'hours' : 0,
+                'minutes' : 0,
+                'seconds' : 0
+            };
+        }
+    }
+
+    function setCloack(id, endtime){
+        var timer = document.querySelector('.timer');
+        var hourse = timer.querySelector('.hours');
+        var minutes = timer.querySelector('.minutes');
+        var seconds = timer.querySelector('.seconds');
+        var timeInterval = setInterval(updateClock, 1000);
+
+        function updateClock() {
+            var t = getTimeRemaining(endtime);
+            if (t.hours <= 9){
+            hourse.textContent = "0" + t.hours  ;
+            } else{
+                hourse.textContent = t.hours;
+            }
+            if (t.minutes <= 9 ){
+                minutes.textContent = "0" + t.minutes;
+            }else {
+                minutes.textContent = t.minutes;
+            }
+            if (t.seconds <= 9){
+            seconds.textContent = "0" + t.seconds;
+            } else{
+                seconds.textContent = t.seconds;
+            }
+
+            if( t.total <= 0){
+                clearInterval(timeInterval);
+            }
+        }
+    }
+
+    setCloack('timer', deadLine);
 });
